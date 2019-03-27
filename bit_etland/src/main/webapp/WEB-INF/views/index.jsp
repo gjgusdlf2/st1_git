@@ -44,9 +44,9 @@
       <h4>John's Blog</h4>
       <ul class="nav nav-pills nav-stacked">
         <li class="active"><a href="#section1">Home</a></li>
-        <li><a href="#section2">Friends</a></li>
-        <li><a href="#section3">Family</a></li>
-        <li><a href="#section3">Photos</a></li>
+        <li><a href="#">Friends</a></li>
+        <li><a href="#">Family</a></li>
+        <li><a href="#">Photos</a></li>
       </ul><br>
       <div class="input-group">
         <input type="text" class="form-control" placeholder="Search Blog..">
@@ -131,6 +131,7 @@
 <script src="<%=application.getContextPath()%>/resources/js/component/compo.js"></script>
 <script src="<%=application.getContextPath()%>/resources/js/customer/cust.js"></script>
 <script src="<%=application.getContextPath()%>/resources/js/employee/emp.js"></script>
+<script src="<%=application.getContextPath()%>/resources/js/common/auth.js"></script>
 <script>
 app.init('<%=application.getContextPath()%>');
 </script>
