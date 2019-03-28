@@ -1,4 +1,4 @@
-package com.bit_etland.web.prod;
+package com.bit_etland.web.prd;
 
 import org.springframework.stereotype.Repository;
 

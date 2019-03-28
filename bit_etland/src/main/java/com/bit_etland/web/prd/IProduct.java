@@ -1,8 +1,8 @@
-package com.bit_etland.web.emp;
+package com.bit_etland.web.prd;
 
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface IEmployee {
+public interface IProduct {
 
 }
