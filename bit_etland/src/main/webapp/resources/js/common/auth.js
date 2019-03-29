@@ -7,17 +7,15 @@ auth = (()=>{
 		compojs = js+'/component/compo.js';
 		r_cnt = '#right_content';
 		l_cnt = '#left_content';
+		custjs = js+'/customer/cust.js';
 		onCreate();
 	};
 	let onCreate =()=>{
 		setContentView();
 	};
 	let setContentView =()=>{
-		$.getScript(compojs)
-		.done(()=>{
-			$(r_cnt).empty()
-			$(compo.cust_login_form())
-			.appendTo(r_cnt);
+		$.getScript(compojs,()=>{
+			$(r_cnt).html(compo.cust_login_form());
 			$('form button[type=submit]').click(e=>{
 				e.preventDefault();
 				login();
@@ -35,9 +33,12 @@ auth = (()=>{
 			$.each(arr,(i,j)=>{
 				$('<li><a href="#">'+j.txt+'</a></li>')
 				.attr('name', j.name)
+				.attr('id',j.name)
 				.appendTo(l_cnt+' ul.nav')
 				.click(function(){
 					let that = $(this).attr('name');
+					$(this).addClass('active');
+					$(this).siblings().removeClass('active');
 					switch(that){
 					case 'login':
 						$(r_cnt).empty();
@@ -52,35 +53,24 @@ auth = (()=>{
 						$(r_cnt).empty();
 						$(compo.cust_join_form())
 						.appendTo(r_cnt);
-						$('form button[type=submit]').click(e=>{
-								e.preventDefault();
-								alert('회원가입 클릭');
 								join();
-							});
 						break;
 					case 'register':
 						$(r_cnt).empty();
 						$(compo.emp_access_form())
 						.appendTo(r_cnt);
-						$('form button[type=submit]').click(e=>{
-							e.preventDefault();
-							alert('어세스 클릭');
 							access();
-						});
 						break;
 					case 'access':
 						$(r_cnt).empty();
-						 $(compo.emp_register_form())
+						$(compo.emp_register_form())
 						.appendTo(r_cnt);
-						$('form button[type=submit]').click(e=>{
-							e.preventDefault();
-							alert('레지스터 클릭');
 							register();
-						});
 						break;
 					}
 				});
 		});
+			$('#login').addClass('active');
 	})
 		.fail(()=>{
 			alert('/component/compo.js 를 찾지 못했습니다.');
@@ -88,10 +78,10 @@ auth = (()=>{
 	};
 	let login =()=>{
 			let data ={
-					customerID:$('form input[name=uname]').val(),
-					password:$('form input[name=psw]').val()};
+					customerID:$('form input[name=customerID]').val(),
+					password:$('form input[name=password]').val()};
 			$.ajax({
-				url : _+'/users/cust'+data.customerID,
+				url : _+'/customers/'+data.customerID,
 				type : 'POST',
 				data : JSON.stringify(data),
 				dataType : 'json',
@@ -100,8 +90,10 @@ auth = (()=>{
 					if(d.customerID!==''){
 						alert('로그인 성공'+d.customerID);
 						$('#right_content').empty();
-						$(compo.cust_mypage()).appendTo('#right_content');
-						cust.init();
+						//$(compo.cust_mypage()).appendTo('#right_content');
+						$.getScript(custjs,()=>{
+							cust.init();
+						});
 					}else{
 						alert('로그인 실패');
 					}
@@ -117,7 +109,7 @@ auth = (()=>{
 				password:$('form input[name=psw]').val(),
 		};
 		$.ajax({
-			url : _+'/users/cust',
+			url : _+'/customers',
 			type : 'POST',
 			data : JSON.stringify(data),
 			contentType : 'application/json',
