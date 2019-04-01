@@ -57,15 +57,18 @@ auth = (()=>{
 						break;
 					case 'register':
 						$(r_cnt).empty();
-						$(compo.emp_access_form())
+						$(compo.emp_register_form())
 						.appendTo(r_cnt);
 							access();
 						break;
 					case 'access':
 						$(r_cnt).empty();
-						$(compo.emp_register_form())
+						$(compo.emp_access_form())
 						.appendTo(r_cnt);
-							register();
+						$('#accessbtn').click(e=>{
+							e.preventDefault();
+							alert('접근확인');
+						});
 						break;
 					}
 				});
@@ -166,31 +169,34 @@ auth = (()=>{
 		})
 	};
 	let access =()=>{
-		let data ={
-				employeeID:$('form input[name=employeeID]').val(),
-				name:$('form input[name=name]').val(),
-				manager:$('form input[name=manager]').val(),
-				birthDate:$('form input[name=birthDate]').val(),
-				photo:$('form input[name=photo]').val(),
-				notes:$('form input[name=notes]').val()
-		};
-		$.ajax({
-			url : _+'/users/cust'+data.customerID,
-			type : 'POST',
-			data : JSON.stringify(data),
-			contentType : 'application/json',
-			success : d=>{
-				if(d.customerID!==''){
-					alert('회원가입 성공 '+d.customerName);
-					$(r_cnt).html(compo.cust_mypage());
-				}else{
-					alert('회원가입 실패');
+		let ok = confirm('사원 입니까?');
+		if(ok){
+			let emp_no = prompt('사원번호 입력하세요');
+			$.getJSON(_+'/employees',d=>{
+				if(emp_no === d.employeeID){
+					//고객 명단
+					$.getScript(compojs,()=>{
+						$(r_cnt).html(emp_access_form());
+						cust.list();
+					});
 				}
-			},
-			error : e=>{
-				alert('실패');
+			});
+			if(emp_no==1000){
+				// 이름 이력참을 그린다
+				alert('사원 인증');
+			}else{
+				alert('사원번호가 일치하지 않습니다.');
+				// 사원번호가 일치하지 않습니다.
 			}
-		})
+		}else{
+			alert('사원 전용 페이지 입니다');
+			// 사원 전용 페이지 입니다
+			// 되돌아가기 버튼이 보입니다.
+		}
 	};
 	return {init:init};	
 })();
+
+
+
+

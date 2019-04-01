@@ -2,14 +2,17 @@ var cust = cust || {}
 cust = (()=>{
 	let _,js,compojs,r_cnt, l_cnt;
 	let init =()=>{
+		reset();
+		onCreate();
+	}
+	let reset=()=>{
 		_ = $.ctx();
 		js = $.js();
 		compojs = js+'/component/compo.js';
 		r_cnt = '#right_content';
 		l_cnt = '#left_content';
 		prdjs = js+'/prd/prd.js';
-		onCreate();
-	}
+	};
 	let onCreate=()=>{
 		setContentView();
 	};
@@ -96,6 +99,34 @@ cust = (()=>{
 			}
 		});
 };
+	let list =()=>{
+		reset();
+		$.getJSON(_+'/customers/page/1',d=>{
+			alert('리스트');
+			let html = '<table><tr><th></th>'
+				+'<th>아이디</th>'
+				+'<th>이름</th>'
+				+'<th>생년월일</th>'
+				+'<th>성별</th>'
+				+'<th>전화</th>'
+				+'<th>주소</th>'
+				+'<th>우편번호</th>'
+				+'</tr>'
+			$.each(d,(i,j)=>{
+				html  += '<tr><td>'+j.rnum+'</td>'
+				+'<th>'+j.customerID+'</th>'
+				+'<th>'+j.customerName+'</th>'
+				+'<th>'+j.ssn+'</th>'
+				+'<th>'+j.남+'</th>'
+				+'<th>'+j.address+'</th>'
+				+'<th>'+j.city+'</th>'
+				+'<th>'+j.postalCode+'</th>'
+				+'</tr>'
+			});
+			html += '</table>'
+				$(r_cnt).html(html);
+		});
+	};
 	
-	return {init: init};
+	return {init: init , list:list};
 })();

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bit_etland.web.cmm.IConsumer;
 import com.bit_etland.web.cmm.IFunction;
+import com.bit_etland.web.cmm.ISupplier;
 import com.bit_etland.web.cmm.PrintService;
 import com.bit_etland.web.cmm.Users;
 
@@ -31,13 +32,11 @@ public class EmployeeCtr {
 	@Autowired Users<?> user;
 	@Autowired Map<String,Object> map;
 	
-	@PostMapping("/employees/{userid}")
-	public Employee login(
-			@PathVariable String userid,
-			@RequestBody Employee param) {
+	@GetMapping("/employees")
+	public Employee login() {
 		logger.info("=========login 진입===========");
-		IFunction i = (Object o) -> empMap.selectEmployee(param);
-		return (Employee)i.apply(param);
+		ISupplier i = ()-> empMap.findEmployee();
+		return (Employee)i.get();
 	}
 	
 	@SuppressWarnings("unchecked")

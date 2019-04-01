@@ -16,7 +16,7 @@ prd = (()=>{
              let i = 0;
              for(i=1; i<4;i++){
             	 $('#caro-img-'+i)
-            	 .attr('src',$.img()+'/s10-'+i+'.jpg')
+            	 .attr('src',$.img()+'la'+i+'.jpg')
             	 .css('width','600px')
             	 ;
              };
